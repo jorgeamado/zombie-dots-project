@@ -2,8 +2,6 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Transforms;
-using UnityEngine;
 
 namespace Systems
 {
@@ -19,18 +17,15 @@ namespace Systems
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            if(!Input.GetKeyUp(KeyCode.Space))
-                return;
-            
             var graveyardEntity = SystemAPI.GetSingletonEntity<GraveyardProperties>();
             var graveyard = SystemAPI.GetAspectRW<GraveyardAspect>(graveyardEntity);
 
 
-            var builder = new BlobBuilder(Allocator.Temp);
+            using var builder = new BlobBuilder(Allocator.Temp);
+            using var ecb = new EntityCommandBuffer(Allocator.Temp);
+            
             ref var spawnPoints = ref builder.ConstructRoot<ZombieSpawnPointsBlob>();
             var arrayBuilder = builder.Allocate(ref spawnPoints.Value, graveyard.NumberTombstoneToSpawn);
-
-            var ecb = new EntityCommandBuffer(Allocator.Temp);
            
             for (int i = 0; i < graveyard.NumberTombstoneToSpawn; i++)
             {
@@ -44,13 +39,10 @@ namespace Systems
             
             var blobAsset = builder.CreateBlobAssetReference<ZombieSpawnPointsBlob>(Allocator.Persistent);
             ecb.SetComponent(graveyardEntity, new ZombieSpawnPoints{Value = blobAsset});
-            builder.Dispose();
             
             ecb.Playback(state.EntityManager);
-            ecb.Dispose();
             
             state.Enabled = false; //Disable after 1 frame
-
         }
 
         [BurstCompile]

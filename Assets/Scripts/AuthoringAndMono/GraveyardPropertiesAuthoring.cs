@@ -17,29 +17,27 @@ namespace ComponentsAndTags
         [Header("Random seed")]
         public uint RandomSeedValue;
 
-
         public class GraveyardPropertiesBaker : Baker<GraveyardPropertiesAuthoring>
         {
             public override void Bake(GraveyardPropertiesAuthoring authoring)
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
 
-                
-                AddComponent(entity,new GraveyardRandom { Value = Unity.Mathematics.Random.CreateFromIndex(authoring.RandomSeedValue) });
-                
+                AddComponent(entity,
+                    new GraveyardRandom
+                        { Value = Unity.Mathematics.Random.CreateFromIndex(authoring.RandomSeedValue) });
                 AddComponent(entity,
                     new GraveyardProperties
-                        {
-                            FieldDimensions = authoring.FieldDimensions,
-                            NumberTombstoneToSpawn = authoring.NumberTombstoneToSpawn,
-                            TombstonePrefab = GetEntity(authoring.TombstonePrefab, TransformUsageFlags.Dynamic),
-                            ZombiePrefab = GetEntity(authoring.ZombiePrefab, TransformUsageFlags.Dynamic),
-                            ZombieSpawnRate = authoring.ZombieSpawnRate,
-                            
-                            BrainSafeRadiusSQ = authoring.BrainSafeRadius*authoring.BrainSafeRadius,
-                            
-                        });
-                
+                    {
+                        FieldDimensions = authoring.FieldDimensions,
+                        NumberTombstoneToSpawn = authoring.NumberTombstoneToSpawn,
+                        TombstonePrefab = GetEntity(authoring.TombstonePrefab, TransformUsageFlags.Dynamic),
+                        ZombiePrefab = GetEntity(authoring.ZombiePrefab, TransformUsageFlags.Dynamic),
+                        ZombieSpawnRate = authoring.ZombieSpawnRate,
+
+                        BrainSafeRadiusSQ = authoring.BrainSafeRadius * authoring.BrainSafeRadius,
+                    });
+
                 AddComponent<ZombieSpawnPoints>(entity);
                 AddComponent<ZombieSpawnTimer>(entity);
             }
