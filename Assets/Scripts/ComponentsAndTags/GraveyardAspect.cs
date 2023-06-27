@@ -25,6 +25,12 @@ namespace ComponentsAndTags
             set => _zombieSpawnTimer.ValueRW.Value = value;
         }
 
+
+        public bool TimeToSpawnZombie => ZombieSpawnTimer <= 0;
+
+        public float ZombieSpawnRate => _graveyardProperties.ValueRO.ZombieSpawnRate;
+        public Entity ZombiePrefab => _graveyardProperties.ValueRO.ZombiePrefab;
+
         public float3 Position => _localTransform.ValueRO.Position;
 
         public float BrainSafeRadiusSq => _graveyardProperties.ValueRO.BrainSafeRadiusSQ;
@@ -50,6 +56,17 @@ namespace ComponentsAndTags
                 Position = GetRandomPosition(),
                 Rotation = GetRandomRotation(),
                 Scale = GetRandomScale(0.5f)
+            };
+        }
+
+        public LocalTransform GetZombieSpawnPoint()
+        {
+            var position = GetRandomZombieSpawnPoint();
+            return new LocalTransform()
+            {
+                Position = position,
+                Rotation = quaternion.RotateY(MathHelpers.GetHeading(position, Position)),
+                Scale = 1f
             };
         }
 

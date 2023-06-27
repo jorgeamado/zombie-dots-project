@@ -2,6 +2,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 
 namespace Systems
 {
@@ -26,14 +27,15 @@ namespace Systems
             
             ref var spawnPoints = ref builder.ConstructRoot<ZombieSpawnPointsBlob>();
             var arrayBuilder = builder.Allocate(ref spawnPoints.Value, graveyard.NumberTombstoneToSpawn);
-           
+
+            var tombstoneOffset = new float3(0, -2f, 0f);
             for (int i = 0; i < graveyard.NumberTombstoneToSpawn; i++)
             {
                 var newTombstone = ecb.Instantiate(graveyard.TombstonePrefab);
                 var randomTombstoneTransform = graveyard.GetRandomTombstoneTransform();
                 ecb.SetComponent(newTombstone, randomTombstoneTransform);
 
-                var newZombiePosition = randomTombstoneTransform.Position;
+                var newZombiePosition = randomTombstoneTransform.Position + tombstoneOffset;
                 arrayBuilder[i] = newZombiePosition;
             }
             
