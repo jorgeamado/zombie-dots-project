@@ -1,6 +1,8 @@
 ﻿using ComponentsAndTags;
+using ComponentsAndTags.Zombie;
 using Unity.Burst;
 using Unity.Entities;
+using Utils;
 
 namespace Systems
 {
@@ -40,7 +42,11 @@ namespace Systems
 
             graveyard.ZombieSpawnTimer = graveyard.ZombieSpawnRate;
             var zombie = ECB.Instantiate(graveyard.ZombiePrefab);
-            ECB.SetComponent(zombie, graveyard.GetZombieSpawnPoint());
+            var zombieSpawnPoint = graveyard.GetZombieSpawnPoint();
+            ECB.SetComponent(zombie, zombieSpawnPoint);
+
+            var heading = MathHelpers.GetHeading(zombieSpawnPoint.Position, graveyard.Position);
+            ECB.SetComponent(zombie, new ZombieHeading(){Value = heading});
         }
     }
 }

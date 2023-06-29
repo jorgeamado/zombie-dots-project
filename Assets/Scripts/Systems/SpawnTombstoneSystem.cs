@@ -46,11 +46,5 @@ namespace Systems
             
             state.Enabled = false; //Disable after 1 frame
         }
-
-        [BurstCompile]
-        public void OnDestroy(ref SystemState state)
-        {
-
-        }
     }
 }

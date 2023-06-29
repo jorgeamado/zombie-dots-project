@@ -1,6 +1,7 @@
-﻿using ComponentsAndTags;
+﻿using ComponentsAndTags.Zombie;
 using Unity.Burst;
 using Unity.Entities;
+using ZombieRiseAspect = ComponentsAndTags.Zombie.ZombieRiseAspect;
 
 
 namespace Systems
@@ -40,6 +41,7 @@ namespace Systems
             if(!zombie.IsAboveGround) return;
             zombie.SetAtGroundLevel();
             ECB.RemoveComponent<ZombieRiseRate>(sortKey, zombie.Entity);
+            ECB.SetComponentEnabled<ZombieWalkProperties>(sortKey, zombie.Entity, true);
         }
     }
 }

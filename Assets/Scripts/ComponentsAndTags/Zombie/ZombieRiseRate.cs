@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace ComponentsAndTags
+namespace ComponentsAndTags.Zombie
 {
     public struct ZombieRiseRate : IComponentData
     {

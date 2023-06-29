@@ -1,8 +1,9 @@
-﻿using Unity.Entities;
+﻿using ComponentsAndTags;
+using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace ComponentsAndTags
+namespace AuthoringAndMono
 {
     public class GraveyardPropertiesAuthoring : MonoBehaviour
     {

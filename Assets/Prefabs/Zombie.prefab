@@ -465,7 +465,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1843df4e2ba43e49af9e92a69031079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZombieRiseRate: 0.5
+  ZombieRiseRate: 1.51
+  WalkSpeed: 1.98
+  WalkAmplitude: 0.2
+  WalkFrequency: 5
+  EatDamagePerSecond: 1
+  EatAmplitude: 0.2
+  EatFrequency: 10
 --- !u!1 &9044115827234658676
 GameObject:
   m_ObjectHideFlags: 0
